@@ -646,12 +646,14 @@
       <Item Value="PocId"/>
       <Item Value="BuyerId"/>
       <Item Value="OrgId"/>
+      <Item Value="SeasonC"/>
     </AttrArray>
     <AttrArray Name="ListAttrNames">
       <Item Value="CombinedAttribute"/>
       <Item Value="PocId"/>
       <Item Value="BuyerId"/>
       <Item Value="OrgId"/>
+      <Item Value="Season"/>
     </AttrArray>
     <AttrArray Name="ListDisplayAttrNames">
       <Item Value="CombinedAttribute"/>
