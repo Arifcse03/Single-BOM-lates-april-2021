@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="BomBpoLinesAllVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false"
+  RowClass="mnj.ont.model.views.BomBpoLinesAllVORowImpl"
+  ComponentClass="mnj.ont.model.views.BomBpoLinesAllVOImpl">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.views.BomBpoLinesAllVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <ViewAccessor
+    Name="BuyerCriteria1"
+    ViewObjectName="mnj.ont.model.lov.BuyerCriteria"
+    RowLevelBinds="true"/>
+  <ListBinding
+    Name="LOV_BpoNo"
+    ListVOName="BuyerCriteria1"
+    ListRangeSize="10"
+    NullValueFlag="start"
+    NullValueId="${adfBundle['oracle.javatools.resourcebundle.SystemBundle']['NULL_VALUE_RESID']}"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="BpoNo"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="SaleOrderId"/>
+      <Item Value="Brand"/>
+      <Item Value="EndUserDesc"/>
+      <Item Value="Fit"/>
+      <Item Value="OrderQty"/>
+      <Item Value="Season"/>
+      <Item Value="StyleNo"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="BpoNo"/>
+      <Item Value="HeaderId"/>
+      <Item Value="Brand"/>
+      <Item Value="EndUser"/>
+      <Item Value="Fit"/>
+      <Item Value="OrderedQty"/>
+      <Item Value="Season"/>
+      <Item Value="StyleNo"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="BpoNo"/>
+      <Item Value="Brand"/>
+      <Item Value="EndUser"/>
+      <Item Value="Fit"/>
+      <Item Value="OrderedQty"/>
+      <Item Value="Season"/>
+      <Item Value="StyleName"/>
+      <Item Value="StyleNo"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="BuyerCriteriaCriteria"/>
+  </ListBinding>
+  <SQLQuery>
+    <![CDATA[SELECT  distinct MnjBomBpoLinesAll.BOM_ID, 
+       MnjBomBpoLinesAll.BPO_NO,
+       '' CATEGORY,
+--     (select DISTINCT OOHA.ATTRIBUTE3 
+--       from OE_ORDER_HEADERS_ALL OOHA 
+--       where OOHA.CUST_PO_NUMBER=MnjBomBpoLinesAll.BPO_NO
+--         and OOHA.ATTRIBUTE1 = (select distinct bb.style_no_c 
+--                                from cust_mnj_ont_bom bb 
+--                                where bb.bom_id = MnjBomBpoLinesAll.BOM_ID
+--                                and  bb.SEASON_C = OOHA.ATTRIBUTE4                                
+--                               ) 
+--        ) CATEGORY,
+        
+       MnjBomBpoLinesAll.END_USER_DESC,
+       mmph.END_USER  END_USER_DESC_POC,
+       MnjBomBpoLinesAll.FIT,
+       mmph.FIT FIT_POC, 
+       MnjBomBpoLinesAll.LINE_ID, 
+       MnjBomBpoLinesAll.ORDER_QTY, 
+       MnjBomBpoLinesAll.SALE_ORDER_ID, 
+       MnjBomBpoLinesAll.USER_ITEM_DESC,
+       mmph.ITEM_DESCRIPTION USER_ITEM_DESC_POC,
+       MnjBomBpoLinesAll.BRAND,
+       mmph.BRAND BRAND_POC,
+       MnjBomBpoLinesAll.STYLE_NO, 
+       MnjBomBpoLinesAll.SEASON,
+       MnjBomBpoLinesAll.POC_ID,
+       MnjBomBpoLinesAll.PERCENT
+       
+FROM MNJ_BOM_BPO_LINES_ALL MnjBomBpoLinesAll, mnj_mfg_precosting_h mmph
+where MnjBomBpoLinesAll.poc_id = mmph.HEADER_NO (+)]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="MnjBomBpoLinesAll"
+    Entity="mnj.ont.model.entities.MnjBomBpoLinesAll"/>
+  <ViewAttribute
+    Name="BomId"
+    PrecisionRule="true"
+    EntityAttrName="BomId"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="BOM_ID"/>
+  <ViewAttribute
+    Name="BpoNo"
+    PrecisionRule="true"
+    EntityAttrName="BpoNo"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="BPO_NO"
+    LOVName="LOV_BpoNo">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Category"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CATEGORY"
+    Expression="CATEGORY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="EndUserDesc"
+    PrecisionRule="true"
+    EntityAttrName="EndUserDesc"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="END_USER_DESC"/>
+  <ViewAttribute
+    Name="EndUserDescPoc"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="END_USER_DESC_POC"
+    Expression="END_USER_DESC_POC"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Fit"
+    PrecisionRule="true"
+    EntityAttrName="Fit"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="FIT"/>
+  <ViewAttribute
+    Name="FitPoc"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="FIT_POC"
+    Expression="FIT_POC"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LineId"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="LineId"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="LINE_ID"/>
+  <ViewAttribute
+    Name="OrderQty"
+    PrecisionRule="true"
+    EntityAttrName="OrderQty"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="ORDER_QTY"/>
+  <ViewAttribute
+    Name="SaleOrderId"
+    PrecisionRule="true"
+    EntityAttrName="SaleOrderId"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="SALE_ORDER_ID"/>
+  <ViewAttribute
+    Name="UserItemDesc"
+    PrecisionRule="true"
+    EntityAttrName="UserItemDesc"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="USER_ITEM_DESC"/>
+  <ViewAttribute
+    Name="UserItemDescPoc"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="1000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="USER_ITEM_DESC_POC"
+    Expression="USER_ITEM_DESC_POC"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="1000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Brand"
+    PrecisionRule="true"
+    EntityAttrName="Brand"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="BRAND"/>
+  <ViewAttribute
+    Name="BrandPoc"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BRAND_POC"
+    Expression="BRAND_POC"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StyleNo"
+    PrecisionRule="true"
+    EntityAttrName="StyleNo"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="STYLE_NO"/>
+  <ViewAttribute
+    Name="Season"
+    PrecisionRule="true"
+    EntityAttrName="Season"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="SEASON"/>
+  <ViewAttribute
+    Name="PocId"
+    PrecisionRule="true"
+    EntityAttrName="PocId"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="POC_ID"/>
+  <ViewAttribute
+    Name="Percent"
+    PrecisionRule="true"
+    EntityAttrName="Percent"
+    EntityUsage="MnjBomBpoLinesAll"
+    AliasName="PERCENT"/>
+  <ViewAttribute
+    Name="TotOrdQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="TOT_ORD_QTY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalOrderQty"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    AliasName="VIEW_ATTR"
+    SQLType="NUMERIC"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="mnj.ont.model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>
