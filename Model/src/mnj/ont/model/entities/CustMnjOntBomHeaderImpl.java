@@ -37,9 +37,9 @@ public class CustMnjOntBomHeaderImpl extends EntityImpl {
     @Override
     protected void validateEntity() {
         if (getStyleNoC() == null && getStyleNameNew() == null ){        
-            
+            ;
            
-            throw new JboException("You can't leave Style Name and Style No both Blank, please fill any one. .");
+           // throw new JboException("You can't leave Style Name and Style No both Blank, please fill any one. .");
         
         }
         super.validateEntity(); 
